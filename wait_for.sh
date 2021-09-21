@@ -204,7 +204,9 @@ wait_for_resource() {
     while [ -n "$(get_${wait_for_resource_type}_state "$wait_for_resource_descriptor")" ] ; do
         print_KUBECTL_ARGS="$KUBECTL_ARGS"
         [ "$print_KUBECTL_ARGS" != "" ] && print_KUBECTL_ARGS=" $print_KUBECTL_ARGS"
-        echo "Waiting for $wait_for_resource_type $wait_for_resource_descriptor${print_KUBECTL_ARGS}..."
+        if [ $DEBUG -ge 1 ]; then
+           echo "Waiting for $wait_for_resource_type $wait_for_resource_descriptor${print_KUBECTL_ARGS}..."
+        fi
         sleep "$WAIT_TIME"
     done
     ready "$wait_for_resource_type" "$wait_for_resource_descriptor"
